@@ -6,7 +6,7 @@
 /*   By: rafagg <rafagg@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 19:56:54 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/05/29 22:03:33 by rafagg           ###   ########.fr       */
+/*   Updated: 2026/05/29 22:09:50 by rafagg           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,3 @@ char	*find_executable(char *cmd, t_shell *shell)
 	}
 	return (find_in_path(cmd, shell));
 }
-
