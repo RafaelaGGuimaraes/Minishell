@@ -6,7 +6,7 @@
 /*   By: rafagg <rafagg@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 19:53:44 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/05/29 20:11:00 by rafagg           ###   ########.fr       */
+/*   Updated: 2026/05/29 22:06:08 by rafagg           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ static int	handle_word(t_cmd *cmd, t_token *tok, t_shell *shell)
 	value = expand(tok->value, tok->quoted, shell);
 	if (!value)
 		return (-1);
+	if (*value == '\0' && tok->quoted == QUOTE_NONE)
+	{
+		free(value);
+		return (0);
+	}
 	if (add_arg(cmd, value) == -1)
 		return (free(value), -1);
 	return (0);
