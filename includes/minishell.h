@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chiaronero <chiaronero@student.42.fr>      +#+  +:+       +#+        */
+/*   By: rafagg <rafagg@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:42:58 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/05/27 23:41:27 by chiaronero       ###   ########.fr       */
+/*   Updated: 2026/05/29 22:12:04 by rafagg           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,6 @@ char		*build_env_entry(char *name, char *value);
 void		free_array(char **arr);
 void		shell_error(char *cmd, char *msg, int code);
 char		*append_part(char *result, char *part);
-
-/* No arquivo includes/minishell.h */
 char		*find_executable(char *cmd, t_shell *shell);
-void		exec_external(t_cmd *cmd, t_shell *shell);
 
 #endif
