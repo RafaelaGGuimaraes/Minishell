@@ -6,7 +6,7 @@
 /*   By: rafagg <rafagg@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:23:19 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/05/29 20:12:18 by rafagg           ###   ########.fr       */
+/*   Updated: 2026/05/29 22:07:36 by rafagg           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,11 @@ int	ft_cd(char **args, t_shell *shell)
 
 	oldpwd = getcwd(NULL, 0);
 	path = get_cd_path(args, shell);
+	if (args[1] && args[2])
+	{
+		ft_putendl_fd("minishell: cd: too many arguments", 2);
+		return (1);
+	}
 	if (!path)
 		return (free(oldpwd), 1);
 	if (chdir(path) == -1)
