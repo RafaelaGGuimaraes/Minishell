@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:30:26 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 13:17:19 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 14:36:22 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	exec_external(t_cmd *cmd, t_shell *shell)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd->args[0], 2);
 		ft_putendl_fd(": command not found", 2);
+		cleanup_shell(shell);
 		exit(127);
 	}
 	if (execve(path, cmd->args, shell->env) == -1)

@@ -6,7 +6,7 @@
 #    By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/25 19:57:54 by rgomes-g          #+#    #+#              #
-#    Updated: 2026/06/04 13:19:16 by rgomes-g         ###   ########.fr        #
+#    Updated: 2026/06/04 14:37:40 by rgomes-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,6 +77,9 @@ $(LIBFT):
 test_path: $(LIBFT) $(filter-out main.o, $(OBJS)) test_path.o
 	@$(CC) $(CFLAGS) $^ $(LIBFT) $(LDFLAGS) -o test_path
 	@echo "$(GREEN)✓ test_path compiled$(RESET)"
+	
+run_valgrind:
+	@valgrind -q --track-origins=yes --show-leak-kinds=all --trace-children=yes --track-fds=yes --suppressions=minishell.supp --leak-check=full ./minishell
 
 clean:
 	@$(MAKE) clean -C $(LIBFT_DIR) --no-print-directory
