@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:42:58 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 17:54:32 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 18:07:44 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ typedef struct s_shell
 	t_token	*tokens;
 }	t_shell;
 
+/* lexer.c — leitura e criação de tokens */
 t_token		*tokenize(char *line, t_shell *shell);
-void		free_tokens(t_token *lst);
 
 /* lexer_utils.c — leitura e criação de tokens */
 t_token		*new_token(char *value, t_token_type type, t_quote_type quoted);
@@ -90,6 +90,7 @@ int			is_separator(char c);
 
 /* lexer_list.c — manipulação da lista de tokens */
 void		token_addback(t_token **lst, t_token *new);
+void		free_tokens(t_token *lst);
 
 /* parser.c — parsing principal */
 t_cmd		*parse(t_token *tokens, t_shell *shell);
@@ -104,10 +105,15 @@ void		redir_addback(t_redir **lst, t_token_type type, char *file, int hq);
 
 /* expand.c — expande $VAR e $? respeitando o contexto de aspas */
 char		*expand(char *str, t_quote_type quoted, t_shell *shell);
+char		*append_char(char *str, char c);
+char		*expand_exit(t_shell *shell);
+char		*expand_var(char *str, int *i, t_shell *shell);
 
-/* syntax.c — valida a sequência de tokens antes do parse       */
+/* syntax.c + path.c — valida a sequência de tokens antes do parse       */
 int			syntax_check(t_token *tokens);
 char		*find_executable(char *cmd, t_shell *shell);
+int			check_redir(t_token *tok);
+int			check_pipe(t_token *tok);
 
 /* executor.c — único ponto de entrada que o main.c chama       */
 int			execute(t_shell *shell);
