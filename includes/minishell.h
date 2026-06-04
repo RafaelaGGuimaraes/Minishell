@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafagg <rafagg@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:42:58 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/05/29 22:12:04 by rafagg           ###   ########.fr       */
+/*   Updated: 2026/06/04 13:05:08 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_shell
 	char	**env;
 	t_cmd	*cmds;
 	int		last_exit;
-	int		should_exit;
+	t_token	*tokens;
 }	t_shell;
 
 t_token		*tokenize(char *line, t_shell *shell);
@@ -105,6 +105,7 @@ char		*expand(char *str, t_quote_type quoted, t_shell *shell);
 
 /* syntax.c — valida a sequência de tokens antes do parse       */
 int			syntax_check(t_token *tokens);
+char		*find_executable(char *cmd, t_shell *shell);
 
 /* executor.c — único ponto de entrada que o main.c chama       */
 int			execute(t_shell *shell);
@@ -152,6 +153,6 @@ char		*build_env_entry(char *name, char *value);
 void		free_array(char **arr);
 void		shell_error(char *cmd, char *msg, int code);
 char		*append_part(char *result, char *part);
-char		*find_executable(char *cmd, t_shell *shell);
+void		cleanup_shell(t_shell *shell);
 
 #endif
