@@ -1,0 +1,26 @@
+{
+   readline_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable,possible
+   ...
+   fun:readline
+}
+
+{
+   readline_history
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:add_history
+}
+
+{
+   copy_env_inicial
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:ft_strdup
+   fun:copy_env
+   fun:init_shell
+   fun:main
+}

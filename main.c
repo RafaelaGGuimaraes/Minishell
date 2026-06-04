@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafagg <rafagg@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 19:58:01 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/05/29 20:17:05 by rafagg           ###   ########.fr       */
+/*   Updated: 2026/06/04 13:13:10 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	init_shell(t_shell *shell, char **envp)
 {
 	shell->env = copy_env(envp);
 	shell->cmds = NULL;
+	shell->tokens = NULL;
 	shell->last_exit = 0;
 }
 
@@ -30,18 +31,17 @@ static void	check_signal(t_shell *shell)
 
 static void	process_line(t_shell *shell, char *line)
 {
-	t_token	*tokens;
-
-	tokens = tokenize(line, shell);
-	if (tokens && syntax_check(tokens) == 0)
+	shell->tokens = tokenize(line, shell);
+	if (shell->tokens && syntax_check(shell->tokens) == 0)
 	{
-		shell->cmds = parse(tokens, shell);
+		shell->cmds = parse(shell->tokens, shell);
 		if (shell->cmds)
 			shell->last_exit = execute(shell);
 		free_cmds(shell->cmds);
 		shell->cmds = NULL;
 	}
-	free_tokens(tokens);
+	free_tokens(shell->tokens);
+	shell->tokens = NULL;
 }
 
 static void	run_loop(t_shell *shell)
@@ -73,6 +73,8 @@ int	main(int argc, char **argv, char **envp)
 	init_shell(&shell, envp);
 	setup_signals();
 	run_loop(&shell);
+	free_tokens(shell.tokens);
+	free_cmds(shell.cmds);
 	free_array(shell.env);
 	return (shell.last_exit);
 }
