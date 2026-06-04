@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:31:25 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 15:47:19 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 18:20:11 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,31 @@ static int	exec_fork(t_cmd *cmd, t_shell *shell)
 	return (status);
 }
 
+static int	apply_redirs_and_restore(t_redir *redirs)
+{
+    t_redir *curr = redirs;
+    while (curr)
+    {
+        int fd = open_redir(curr);
+        if (fd < 0)
+            return (-1);
+        close(fd); // só cria o arquivo, não precisa redirecionar
+        curr = curr->next;
+    }
+    return (0);
+}
+
 int	exec_cmd(t_cmd *cmd, t_shell *shell)
 {
-	if (!cmd || !cmd->args || !cmd->args[0])
-		return (0);
-	if (is_builtin(cmd->args[0]))
-		return (exec_builtin_cmd(cmd, shell));
-	return (exec_fork(cmd, shell));
+    if (!cmd)
+        return (0);
+    if (!cmd->args || !cmd->args[0])
+    {
+        if (cmd->redirs)
+            return (apply_redirs_and_restore(cmd->redirs));
+        return (0);
+    }
+    if (is_builtin(cmd->args[0]))
+        return (exec_builtin_cmd(cmd, shell));
+    return (exec_fork(cmd, shell));
 }

@@ -6,7 +6,7 @@
 #    By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/25 19:57:54 by rgomes-g          #+#    #+#              #
-#    Updated: 2026/06/04 17:55:10 by rgomes-g         ###   ########.fr        #
+#    Updated: 2026/06/04 18:16:06 by rgomes-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS =  main.c \
  		srcs/execution/executor.c \
 		srcs/execution/executor_external.c \
 		srcs/execution/executor_utils.c \
+		srcs/execution/heredoc.c \
 
 OBJS    = $(SRCS:.c=.o)
 LIBFT   = $(LIBFT_DIR)/libft.a

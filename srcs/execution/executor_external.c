@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:30:26 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 15:58:16 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 18:15:04 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,67 +101,4 @@ int	expand_heredocs(t_cmd *cmds, t_shell *shell)
 		cmd = cmd->next;
 	}
 	return (0);
-}
-
-static void	handle_sigint_heredoc(int sig)
-{
-	g_signal = sig;
-	write(1, "\n", 1);
-	rl_done = 1;
-}
-
-static int	check_sigint_hook(void)
-{
-	if (g_signal == SIGINT)
-		rl_done = 1;
-	return (0);
-}
-
-int	handle_heredoc(char *delim, int heredoc_quoted, t_shell *shell)
-{
-	int					p_fd[2];
-	char				*line;
-	char				*expanded;
-	struct sigaction	sa;
-	struct sigaction	sa_old;
-
-	if (pipe(p_fd) == -1)
-		return (perror("pipe"), -1);
-	ft_memset(&sa, 0, sizeof(sa));
-	sa.sa_handler = handle_sigint_heredoc;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, &sa_old);
-	g_signal = 0;
-	rl_event_hook = check_sigint_hook;
-	while (1)
-	{
-		line = readline("> ");
-		if (g_signal == SIGINT)
-		{
-			free(line);
-			close(p_fd[0]);
-			close(p_fd[1]);
-			rl_event_hook = NULL;
-			sigaction(SIGINT, &sa_old, NULL);
-			return (-1);
-		}
-		if (!line || ft_strncmp(line, delim, ft_strlen(delim) + 1) == 0)
-		{
-			free(line);
-			break ;
-		}
-		if (!heredoc_quoted)
-		{
-			expanded = expand(line, QUOTE_NONE, shell);
-			free(line);
-			line = expanded;
-		}
-		ft_putendl_fd(line, p_fd[1]);
-		free(line);
-	}
-	rl_event_hook = NULL;
-	sigaction(SIGINT, &sa_old, NULL);
-	close(p_fd[1]);
-	return (p_fd[0]);
 }

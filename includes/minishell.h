@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:42:58 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 18:07:44 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 18:18:41 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,24 +118,25 @@ int			check_pipe(t_token *tok);
 /* executor.c — único ponto de entrada que o main.c chama       */
 int			execute(t_shell *shell);
 
+int			exec_pipeline(t_cmd *cmd, t_shell *shell);
 void		exec_child(t_cmd *cmd, t_shell *shell, int fd_in, int *p_fd);
 
 /* executor_utils.c — funções de comando único                  */
 int			exec_cmd(t_cmd *cmd, t_shell *shell);
 
-/* executor_external.c — resolução de path e execve          	*/
-int			exec_pipeline(t_cmd *cmd, t_shell *shell);
+/* executor_external.c + heredoc.c — resolução de path e execve          	*/
 int			count_cmds(t_cmd *cmd);
 void		exec_external(t_cmd *cmd, t_shell *shell);
 int			expand_heredocs(t_cmd *cmds, t_shell *shell);
-
 int			wait_pipeline(pid_t last_pid);
 int			handle_heredoc(char *file, int heredoc_quoted, t_shell *shell);
+void		handle_sigint_heredoc(int sig);
+int			check_sigint_hook(void);
 
 /* builtins.c — interface pública mínima para o executor        */
 int			run_builtin(t_cmd *cmd, t_shell *shell);
 
-/* builtins_utils.c + builtins_env.c + builtins_env2.c — públicas por cruzar arquivos */
+/* builtins_utils.c + builtins_env.c/env2.c  — públicas por cruzar arquivos */
 int			ft_cd(char **args, t_shell *shell);
 int			ft_exit(char **args, t_shell *shell);
 int			ft_unset(char **args, t_shell *shell);
@@ -150,7 +151,6 @@ int			open_redir(t_redir *redir);
 pid_t		exec_pipeline_node(t_cmd *cmd, t_shell *shell, int *fd_in);
 int			exec_pipeline(t_cmd *cmd, t_shell *shell);
 int			apply_redirs(t_redir *redirs);
-
 
 /* signals.c — apenas setup_signals é chamado pelo main.c       */
 void		setup_signals(void);
