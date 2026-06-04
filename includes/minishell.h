@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:42:58 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 18:18:41 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 18:28:03 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,12 +117,12 @@ int			check_pipe(t_token *tok);
 
 /* executor.c — único ponto de entrada que o main.c chama       */
 int			execute(t_shell *shell);
-
-int			exec_pipeline(t_cmd *cmd, t_shell *shell);
 void		exec_child(t_cmd *cmd, t_shell *shell, int fd_in, int *p_fd);
+int			exec_fork(t_cmd *cmd, t_shell *shell);
 
 /* executor_utils.c — funções de comando único                  */
 int			exec_cmd(t_cmd *cmd, t_shell *shell);
+int			wait_child(pid_t pid);
 
 /* executor_external.c + heredoc.c — resolução de path e execve          	*/
 int			count_cmds(t_cmd *cmd);
