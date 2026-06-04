@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:42:58 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 15:04:48 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 15:45:25 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ int			wait_pipeline(pid_t last_pid);
 int			handle_heredoc(char *file, int heredoc_quoted, t_shell *shell);
 int			exec_pipeline(t_cmd *cmd, t_shell *shell);
 int			apply_redirs(t_redir *redirs);
+void		handle_sigint_child(int sig);
 
 /* signals.c — apenas setup_signals é chamado pelo main.c       */
 void		setup_signals(void);

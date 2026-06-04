@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:31:25 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 15:04:59 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 15:47:19 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static int	wait_child(pid_t pid)
 {
 	int	status;
 
+	status = 0;
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
@@ -60,7 +61,9 @@ static int	exec_builtin_cmd(t_cmd *cmd, t_shell *shell)
 
 static int	exec_fork(t_cmd *cmd, t_shell *shell)
 {
-	pid_t	pid;
+	pid_t				pid;
+	struct sigaction	sa;
+	struct sigaction	sa_old;
 
 	pid = fork();
 	if (pid == -1)
@@ -72,7 +75,14 @@ static int	exec_fork(t_cmd *cmd, t_shell *shell)
 			exit(1);
 		exec_external(cmd, shell);
 	}
-	return (wait_child(pid));
+	ft_memset(&sa, 0, sizeof(sa));
+	sa.sa_handler = handle_sigint_child;  // sem rl_redisplay
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, &sa_old);      // salva anterior
+	int status = wait_child(pid);
+	sigaction(SIGINT, &sa_old, NULL);     // restaura com rl_redisplay
+	return (status);
 }
 
 int	exec_cmd(t_cmd *cmd, t_shell *shell)

@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 19:56:54 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 15:05:11 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 15:44:18 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,12 @@ pid_t	exec_pipeline_node(t_cmd *cmd, t_shell *shell, int *fd_in)
 
 int	exec_pipeline(t_cmd *cmd, t_shell *shell)
 {
-	int		fd_in;
-	pid_t	pid;
-	pid_t	last_pid;
+	int				fd_in;
+	pid_t			pid;
+	pid_t			last_pid;
+	struct sigaction	sa;
+	struct sigaction	sa_old;
+	int status;
 
 	fd_in = 0;
 	last_pid = -1;
@@ -72,7 +75,14 @@ int	exec_pipeline(t_cmd *cmd, t_shell *shell)
 		last_pid = pid;
 		cmd = cmd->next;
 	}
-	return (wait_pipeline(last_pid));
+	ft_memset(&sa, 0, sizeof(sa));
+	sa.sa_handler = handle_sigint_child;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, &sa_old);
+	status = wait_pipeline(last_pid);
+	sigaction(SIGINT, &sa_old, NULL);
+	return (status);
 }
 
 int	apply_redirs(t_redir *redirs)

@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 19:58:01 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 15:03:08 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 15:26:31 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static void	run_loop(t_shell *shell)
 	while (1)
 	{
 		line = readline("minishell$ ");
-		check_signal(shell);
 		if (!line)
 		{
 			write(STDOUT_FILENO, "exit\n", 5);
@@ -64,6 +63,7 @@ static void	run_loop(t_shell *shell)
 			add_history(line);
 		process_line(shell, line);
 		free(line);
+		check_signal(shell);
 	}
 }
 
