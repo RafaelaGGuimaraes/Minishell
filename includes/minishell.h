@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:42:58 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 18:28:03 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 18:31:13 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ int			apply_redirs(t_redir *redirs);
 void		setup_signals(void);
 void		setup_signals_child(void);
 void		handle_sigint_child(int sig);
+void		handle_sigint(int sig);
 
 /* env.c — manipulação das variáveis de ambiente */
 char		**copy_env(char **env);

@@ -120,10 +120,12 @@ Cleaning
     │ │ ├── executor_utils.c
     │ │ ├── redirs.c
     │ │ └── path.c
+    │ │ └── heredoc.c    
     │ │
     │ ├── builtins/
     │ │ └── builtins.c
-    │ │ └── builtins_env.c    
+    │ │ └── builtins_env.c
+    │ │ └── builtins_env2.c  
     │ │ └── builtins_utils.c
     │ │
     │ └── shared/
