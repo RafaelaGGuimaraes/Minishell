@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rafagg <rafagg@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:23:19 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/05/29 22:07:36 by rafagg           ###   ########.fr       */
+/*   Updated: 2026/06/04 13:08:04 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,21 @@ static int	is_numeric(char *str)
 
 int	ft_exit(char **args, t_shell *shell)
 {
+	int	code;
+
 	ft_putendl_fd("exit", 2);
 	if (!args[1])
-		exit(shell->last_exit);
+	{
+		code = shell->last_exit;
+		cleanup_shell(shell);
+		exit(code);
+	}
 	if (!is_numeric(args[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(args[1], 2);
 		ft_putendl_fd(": numeric argument required", 2);
+		cleanup_shell(shell);
 		exit(2);
 	}
 	if (args[2])
@@ -61,7 +68,9 @@ int	ft_exit(char **args, t_shell *shell)
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
 		return (1);
 	}
-	exit(ft_atoi(args[1]) % 256);
+	code = ((ft_atoi(args[1]) % 256) + 256) % 256;
+	cleanup_shell(shell);
+	exit(code);
 }
 
 static char	*get_cd_path(char **args, t_shell *shell)
