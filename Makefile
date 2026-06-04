@@ -6,7 +6,7 @@
 #    By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/25 19:57:54 by rgomes-g          #+#    #+#              #
-#    Updated: 2026/06/04 15:37:24 by rgomes-g         ###   ########.fr        #
+#    Updated: 2026/06/04 17:55:10 by rgomes-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRCS =  main.c \
         srcs/execution/redirs.c \
 		srcs/builtins/builtins.c \
 		srcs/builtins/builtins_env.c \
+		srcs/builtins/builtins_env2.c \
 		srcs/builtins/builtins_utils.c \
  		srcs/execution/executor.c \
 		srcs/execution/executor_external.c \

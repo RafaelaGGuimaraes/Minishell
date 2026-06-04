@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:16:29 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 16:02:42 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 17:52:40 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	is_valid_env_name(char *str)
 	return (1);
 }
 
-static void	sort_env(char **sorted, int len)
+void	sort_env(char **sorted, int len)
 {
 	int		i;
 	int		j;
@@ -50,52 +50,6 @@ static void	sort_env(char **sorted, int len)
 		}
 		i++;
 	}
-}
-
-static void	print_export(char **env)
-{
-	char	**sorted;
-	char	*equal;
-	char	*name;
-	int		len;
-	int		j;
-
-	len = 0;
-	while (env && env[len])
-		len++;
-	sorted = malloc(sizeof(char *) * (len + 1));
-	if (!sorted)
-		return ;
-	j = 0;
-	while (j < len)
-	{
-		sorted[j] = env[j];
-		j++;
-	}
-	sorted[len] = NULL;
-	sort_env(sorted, len);
-	j = 0;
-	while (sorted[j])
-	{
-		equal = ft_strchr(sorted[j], '=');
-		if (equal)
-		{
-			name = ft_substr(sorted[j], 0, equal - sorted[j]);
-			ft_putstr_fd("declare -x ", STDOUT_FILENO);
-			ft_putstr_fd(name, STDOUT_FILENO);
-			ft_putstr_fd("=\"", STDOUT_FILENO);
-			ft_putstr_fd(equal + 1, STDOUT_FILENO);
-			ft_putendl_fd("\"", STDOUT_FILENO);
-			free(name);
-		}
-		else
-		{
-			ft_putstr_fd("declare -x ", STDOUT_FILENO);
-			ft_putendl_fd(sorted[j], STDOUT_FILENO);
-		}
-		j++;
-	}
-	free(sorted);
 }
 
 static int	process_export_arg(char *arg, t_shell *shell)

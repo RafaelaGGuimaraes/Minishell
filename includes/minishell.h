@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:42:58 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 17:45:12 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 17:54:32 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,14 +127,17 @@ int			wait_pipeline(pid_t last_pid);
 int			handle_heredoc(char *file, int heredoc_quoted, t_shell *shell);
 
 /* builtins.c — interface pública mínima para o executor        */
-int			is_builtin(char *cmd);
 int			run_builtin(t_cmd *cmd, t_shell *shell);
 
-/* builtins_utils.c + builtins_env.c — públicas por cruzar arquivos */
+/* builtins_utils.c + builtins_env.c + builtins_env2.c — públicas por cruzar arquivos */
 int			ft_cd(char **args, t_shell *shell);
 int			ft_exit(char **args, t_shell *shell);
-int			ft_export(char **args, t_shell *shell);
 int			ft_unset(char **args, t_shell *shell);
+void		print_export_line(char *entry);
+void		print_export(char **env);
+int			is_builtin(char *cmd);
+void		sort_env(char **sorted, int len);
+int			ft_export(char **args, t_shell *shell);
 
 /* redirs.c — gerenciamento de redirecionamentos e heredoc */
 int			open_redir(t_redir *redir);
