@@ -107,20 +107,28 @@ Cleaning
     ├── src/
     │ ├── parsing/
     │ │ ├── lexer.c
+    │ │ ├── lexer_list.c
+    │ │ ├── lexer_utils.c
     │ │ ├── parser.c
+    │ │ ├── parser_utils.c
     │ │ ├── expand.c
     │ │ └── syntax.c
     │ │
     │ ├── execution/
     │ │ ├── executor.c
+    │ │ ├── executor_external.c
+    │ │ ├── executor_utils.c
     │ │ ├── redirs.c
     │ │ └── path.c
     │ │
     │ ├── builtins/
     │ │ └── builtins.c
+    │ │ └── builtins_env.c    
+    │ │ └── builtins_utils.c
     │ │
     │ └── shared/
     │ ├── env.c
+    │ ├── env_utils.c    
     │ ├── utils.c
     │ └── signals.c
 
