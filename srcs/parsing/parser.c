@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 19:53:44 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 13:18:21 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 15:02:37 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	free_redirs(t_redir *lst)
 	{
 		tmp = lst->next;
 		free(lst->file);
+		if (lst->type == TOKEN_HEREDOC && lst->fd > 0)
+			close(lst->fd);
 		free(lst);
 		lst = tmp;
 	}

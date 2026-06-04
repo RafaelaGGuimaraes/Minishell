@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 19:58:01 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 13:18:50 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 15:03:08 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ static void	process_line(t_shell *shell, char *line)
 	{
 		shell->cmds = parse(shell->tokens, shell);
 		if (shell->cmds)
-			shell->last_exit = execute(shell);
+		{
+			if (expand_heredocs(shell->cmds, shell) == 0)
+				shell->last_exit = execute(shell);
+		}
 		free_cmds(shell->cmds);
 		shell->cmds = NULL;
 	}

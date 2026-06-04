@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 19:56:54 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 13:17:50 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 15:05:11 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	exec_pipeline(t_cmd *cmd, t_shell *shell)
 	return (wait_pipeline(last_pid));
 }
 
-int	apply_redirs(t_redir *redirs, t_shell *shell)
+int	apply_redirs(t_redir *redirs)
 {
 	t_redir	*curr;
 	int		fd;
@@ -84,7 +84,7 @@ int	apply_redirs(t_redir *redirs, t_shell *shell)
 	while (curr)
 	{
 		if (curr->type == TOKEN_HEREDOC)
-			fd = handle_heredoc(curr->file, curr->heredoc_quoted, shell);
+			fd = curr->fd;
 		else
 			fd = open_redir(curr);
 		if (fd < 0)

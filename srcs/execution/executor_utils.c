@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:31:25 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 13:17:24 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 15:04:59 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	exec_builtin_cmd(t_cmd *cmd, t_shell *shell)
 	stdout_backup = dup(STDOUT_FILENO);
 	if (stdin_backup == -1 || stdout_backup == -1)
 		return (perror("dup"), 1);
-	if (apply_redirs(cmd->redirs, shell) == -1)
+	if (apply_redirs(cmd->redirs) == -1)
 	{
 		restore_stdio(stdin_backup, stdout_backup);
 		return (1);
@@ -68,7 +68,7 @@ static int	exec_fork(t_cmd *cmd, t_shell *shell)
 	if (pid == 0)
 	{
 		setup_signals_child();
-		if (apply_redirs(cmd->redirs, shell) == -1)
+		if (apply_redirs(cmd->redirs) == -1)
 			exit(1);
 		exec_external(cmd, shell);
 	}

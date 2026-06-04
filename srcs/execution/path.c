@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 19:56:54 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 13:17:40 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 14:46:15 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ char	*find_executable(char *cmd, t_shell *shell)
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(cmd, 2);
 			ft_putendl_fd(": Permission denied", 2);
-			exit(126);
+			shell->exit_status = 126;
+			return (NULL);
 		}
 		return (ft_strdup(cmd));
 	}

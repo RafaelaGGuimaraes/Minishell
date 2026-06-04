@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:42:58 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 13:17:44 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 15:04:48 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_redir
 	t_token_type	type;
 	char			*file;
 	int				heredoc_quoted;
+	int				fd;
 	struct s_redir	*next;
 }	t_redir;
 
@@ -73,6 +74,7 @@ typedef struct s_shell
 	char	**env;
 	t_cmd	*cmds;
 	int		last_exit;
+	int		exit_status;
 	t_token	*tokens;
 }	t_shell;
 
@@ -117,6 +119,7 @@ int			exec_cmd(t_cmd *cmd, t_shell *shell);
 int			exec_pipeline(t_cmd *cmd, t_shell *shell);
 int			count_cmds(t_cmd *cmd);
 void		exec_external(t_cmd *cmd, t_shell *shell);
+int			expand_heredocs(t_cmd *cmds, t_shell *shell);
 
 /* builtins.c — interface pública mínima para o executor        */
 int			is_builtin(char *cmd);
@@ -133,7 +136,7 @@ void		exec_child(t_cmd *cmd, t_shell *shell, int fd_in, int *p_fd);
 int			wait_pipeline(pid_t last_pid);
 int			handle_heredoc(char *file, int heredoc_quoted, t_shell *shell);
 int			exec_pipeline(t_cmd *cmd, t_shell *shell);
-int			apply_redirs(t_redir *redirs, t_shell *shell);
+int			apply_redirs(t_redir *redirs);
 
 /* signals.c — apenas setup_signals é chamado pelo main.c       */
 void		setup_signals(void);

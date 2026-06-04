@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:32:02 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 13:17:30 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 15:05:04 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	exec_child(t_cmd *cmd, t_shell *shell, int fd_in, int *p_fd)
 {
 	setup_signals_child();
 	setup_pipe_child(fd_in, p_fd, cmd);
-	if (apply_redirs(cmd->redirs, shell) == -1)
+	if (apply_redirs(cmd->redirs) == -1)
 		exit(1);
 	if (!cmd->args || !cmd->args[0])
 		exit(0);
