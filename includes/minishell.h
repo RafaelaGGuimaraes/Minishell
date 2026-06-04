@@ -6,7 +6,7 @@
 /*   By: rgomes-g <rgomes-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:42:58 by rgomes-g          #+#    #+#             */
-/*   Updated: 2026/06/04 15:45:25 by rgomes-g         ###   ########.fr       */
+/*   Updated: 2026/06/04 17:45:12 by rgomes-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ char		*find_executable(char *cmd, t_shell *shell);
 /* executor.c — único ponto de entrada que o main.c chama       */
 int			execute(t_shell *shell);
 
+void		exec_child(t_cmd *cmd, t_shell *shell, int fd_in, int *p_fd);
+
 /* executor_utils.c — funções de comando único                  */
 int			exec_cmd(t_cmd *cmd, t_shell *shell);
 
@@ -120,6 +122,9 @@ int			exec_pipeline(t_cmd *cmd, t_shell *shell);
 int			count_cmds(t_cmd *cmd);
 void		exec_external(t_cmd *cmd, t_shell *shell);
 int			expand_heredocs(t_cmd *cmds, t_shell *shell);
+
+int			wait_pipeline(pid_t last_pid);
+int			handle_heredoc(char *file, int heredoc_quoted, t_shell *shell);
 
 /* builtins.c — interface pública mínima para o executor        */
 int			is_builtin(char *cmd);
@@ -132,16 +137,16 @@ int			ft_export(char **args, t_shell *shell);
 int			ft_unset(char **args, t_shell *shell);
 
 /* redirs.c — gerenciamento de redirecionamentos e heredoc */
-void		exec_child(t_cmd *cmd, t_shell *shell, int fd_in, int *p_fd);
-int			wait_pipeline(pid_t last_pid);
-int			handle_heredoc(char *file, int heredoc_quoted, t_shell *shell);
+int			open_redir(t_redir *redir);
+pid_t		exec_pipeline_node(t_cmd *cmd, t_shell *shell, int *fd_in);
 int			exec_pipeline(t_cmd *cmd, t_shell *shell);
 int			apply_redirs(t_redir *redirs);
-void		handle_sigint_child(int sig);
+
 
 /* signals.c — apenas setup_signals é chamado pelo main.c       */
 void		setup_signals(void);
 void		setup_signals_child(void);
+void		handle_sigint_child(int sig);
 
 /* env.c — manipulação das variáveis de ambiente */
 char		**copy_env(char **env);
